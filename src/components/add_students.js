@@ -71,7 +71,7 @@ class AddStudent extends Component {
                 </div>
                 <div className="row">
                     <div className='col input-field s10 offset-s1'>
-                        <input onChange={this.handleKeyPress} name="grade" type="text" value={grade}/>
+                        <input onChange={this.handleKeyPress} name="grade" type="number" type="text" value={grade}/>
                         <label htmlFor="grade">Grade</label>
                     </div>
                 </div>

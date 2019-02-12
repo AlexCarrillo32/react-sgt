@@ -2,6 +2,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import'materialize-css/dist/js/materialize.min';
 import '../assets/css/app.scss';
 import React, { Component } from 'react';
+import axios from 'axios';
 import Addstudent from './add_students';
 import Table from './table';
 import studentData from '../data/get_all_students';
@@ -45,10 +46,15 @@ class App extends Component {
 
     getStudentData(){
         // call server to get student data
+        axios.get('http://localhost/server/getstudentlist.php').then((response) => {
+            console.log("Server Response:", response.data.data);
 
-        this.setState({
-            students: studentData
+            this.setState({
+                students: response.data.data
+            });
         });
+
+
     }
 
     render() {
