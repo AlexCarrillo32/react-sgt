@@ -2,10 +2,10 @@ import 'materialize-css/dist/css/materialize.min.css';
 import'materialize-css/dist/js/materialize.min';
 import '../assets/css/app.scss';
 import React, { Component } from 'react';
+import axios from 'axios';
 import Addstudent from './add_students';
 import Table from './table';
-import studentData from '../data/get_all_students';
-import { randomString } from '../helpers';
+import { formatPostData } from '../helpers';
 
 
 class App extends Component {
@@ -18,37 +18,55 @@ class App extends Component {
 
     }
 
-    deleteStudent = (id) => {
-        const indexToDelete = this.state.students.findIndex((student) =>{
-            return student.id === id;
-        });
-        if (indexToDelete >= 0){
-            const tempStudents = this.state.students.slice();
+    deleteStudent = async (id) => {
 
-            tempStudents.splice(indexToDelete, 1);
+        const formattedId = formatPostData({ id });
 
-            this.setState({
-                students: tempStudents
-            });
-        }
+        await axios.post('/server/deletestudent.php', formattedId);
+
+        this.getStudentData();
+
     }
 
 
-    addStudent =(student) =>{
+    addStudent = async (student) =>{
 
-        student.id = randomString();
+        const formattedStudent = formatPostData(student);
+
+        await axios.post('/server/createstudent.php', formattedStudent);
+
+        this.getStudentData();
+
+    }
+
+    async getStudentData(){
+
+        const resp = await axios.get('/server/getstudentlist.php');
 
         this.setState({
-            students: [...this.state.students, student]
+            students: resp.data.data || []
         });
-    }
 
-    getStudentData(){
+        // if (resp.data.success){
+        //     this.setState({
+        //         students: resp.data.data
+        //     });
+        // } else {
+        //     this.setState( {
+        //         students: []
+        //     })
+        // }
+
         // call server to get student data
+        // axios.get('http://localhost/server/getstudentlist.php').then((response) => {
+        //     console.log("Server Response:", response.data.data);
+        //
+        //     this.setState({
+        //         students: response.data.data
+        //     });
+        // });
+        //
 
-        this.setState({
-            students: studentData
-        });
     }
 
     render() {
