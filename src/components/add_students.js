@@ -4,12 +4,13 @@ class AddStudent extends Component {
     state = {
         name: '',
         course: '',
-        grade: ''
+        grade: '',
+        instructor:'',
+        notes: ''
     }
 
     handleSubmit = ( event ) => {
         event.preventDefault();
-
 
         this.props.add(this.state);
 
@@ -28,7 +29,9 @@ class AddStudent extends Component {
         this.setState({
             name: '',
             course: '',
-            grade: ''
+            grade: '',
+            instructor: '',
+            notes:''
         });
     }
 
@@ -53,7 +56,7 @@ class AddStudent extends Component {
     // }
 
     render(){
-        const {name, course, grade} = this.state;
+        const {name, course, grade, instructor, notes} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -71,8 +74,20 @@ class AddStudent extends Component {
                 </div>
                 <div className="row">
                     <div className='col input-field s10 offset-s1'>
-                        <input onChange={this.handleKeyPress} name="grade" type="number" type="text" value={grade}/>
+                        <input onChange={this.handleKeyPress} name="grade" type="text" value={grade}/>
                         <label htmlFor="grade">Grade</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className='col input-field s10 offset-s1'>
+                        <input onChange={this.handleKeyPress} name="instructor" type="number" type="text" value={instructor}/>
+                        <label htmlFor="instructor">Instructor</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className='col input-field s10 offset-s1'>
+                        <input onChange={this.handleKeyPress} name="notes" type="number" type="text" value={notes}/>
+                        <label htmlFor="notes">Notes</label>
                     </div>
                 </div>
                 <div className="row">
